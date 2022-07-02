@@ -90,14 +90,21 @@ namespace GameCore
         ///// <summary>
         ///// Congela o jogo pelo tempo determinado.
         ///// </summary>
-        //public static void FreezeGame(float time) => LGM.Instance.StartCoroutine(FreezeTime(time));
+        public static void FreezeGame(float time)
+        {
+            if (IsFreezed)
+                return;
 
-        //private static IEnumerator FreezeTime(float time)
-        //{
-        //    Time.timeScale = 0;
-        //    yield return new WaitForSecondsRealtime(time);
-        //    if(!LGM.Instance.PauseMenu.isPausedStateMenu && !LGM.Instance.PauseMenu.isDeathStateMenu)
-        //    Time.timeScale = 1;
-        //}
+            Main.Instance.StartCoroutine(FreezeTime(time));
+        }
+
+        private static IEnumerator FreezeTime(float time)
+        {
+            isFreezeTime = true;
+            Time.timeScale = 0;
+            yield return new WaitForSecondsRealtime(time);
+            Time.timeScale = 1;
+            isFreezeTime = false;
+        }
     }
 }
